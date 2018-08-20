@@ -124,19 +124,18 @@ export default class DataGeneratorInterface {
    * @param instanceId {string} The testcase instance id. for the same instance id the same data object
    * will be returned. If this is undefined then always a new value will be created.
    * @param testcase {object} The already generated testcase data object.
-   * @param meta {object} Some meta information. tableName, row, column, ...
-   * @param args {object/string} Any arguments the generator may need
+   * @param todoGenerator {object} The generator todo
    * @returns data {object} The genrated data. If the data could not be generated because of missing data
    * then the generator should return 'undefined'. So it could be called later. This may be the case if the generator
    * needs referenced data which is not generated yet.
    */
-  generate(instanceId, testcase, meta, args) {
+  generate(instanceId, testcase, todoGenerator) {
     if (instanceId && this.instanceData.has(instanceId)) {
       return this.instanceData.get(instanceId)
     }
 
     try {
-      const genData = this._doGenerate(instanceId, testcase, meta, args)
+      const genData = this._doGenerate(instanceId, testcase, todoGenerator)
       if (genData !== undefined && instanceId) {
         this.instanceData.set(instanceId, genData)
       }
@@ -148,11 +147,26 @@ export default class DataGeneratorInterface {
         message: err.message,
         function: 'generate',
         testcaseName,
-        tableName: meta.tableName,
-        fieldName: meta.fieldName,
+        tableName: todoGenerator.tableName,
+        fieldName: todoGenerator.fieldName,
         stack: err.stack,
       })
     }
+  }
+
+  /**
+   * Creates the postProcessTodos. Each generator could creates todos which will be executed later on.
+   * Sometimes a generator needs to wait for other generators created there data.
+   * This function is called after the 'generate' function
+   * @param instanceId {string} The testcase instance id. for the same instance id the same data object
+   * will be returned. If this is undefined then always a new value will be created.
+   * @param testcase {object} The already generated testcase data object.
+   * @param todoGenerator {object} The generator todo
+   * @returns todos {array} The generated postProcessTodos
+   */
+  // eslint-disable-next-line no-unused-vars
+  createPostProcessTodos(instanceId, testcase, todoGenerator) {
+    return
   }
 
   /**
@@ -162,17 +176,17 @@ export default class DataGeneratorInterface {
    * @param instanceId {string} The testcase instance id. for the same instance id the same data object
    * will be returned. If this is undefined then always a new value will be created.
    * @param testcase {object} The already generated testcase object.
-   * @param todo {object} The todo action for the postprocessing
+   * @param todoGenerator {object} The todo action for the postprocessing
    */
   // eslint-disable-next-line no-unused-vars
-  postProcess(instanceId, testcase, todo) {}
+  postProcess(instanceId, testcase, todoGenerator) {}
 
   /**
    * This method returns the generated data. It must not update the data in the testcase.
    * @see  generate
    */
   // eslint-disable-next-line no-unused-vars
-  _doGenerate(instanceId, testcase, meta, args) {}
+  _doGenerate(instanceId, testcase, todoGenerator) {}
 
   /**
    * Returns the context of this generator. So you have the complete data generated
