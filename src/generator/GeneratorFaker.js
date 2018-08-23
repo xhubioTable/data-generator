@@ -4,12 +4,12 @@ import assert from 'assert'
 import DataGeneratorInterface from '../DataGeneratorInterface'
 import { execStringFunction } from '../helper'
 import faker from 'faker'
-import { getLoggerMemory } from '@xhubioTable/logger'
+import { getLoggerMemory } from '@xhubiotable/logger'
 
 export default class GeneratorFaker extends DataGeneratorInterface {
-  constructor(serviceRegistry, args) {
+  constructor(serviceRegistry, args = {}) {
     super(serviceRegistry, args)
-    this.logger = getLoggerMemory()
+    this.logger = args.logger ? args.logger : getLoggerMemory()
     this.unique = false
   }
 

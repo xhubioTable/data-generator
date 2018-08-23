@@ -1,6 +1,9 @@
 {
-  "name": "@xhubioTable/data-generator",
-  "version": "0.0.4",
+  "name": "@xhubiotable/data-generator",
+  "version": "0.0.0-semantic-release",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "",
   "keywords": [
     "decision-table"
@@ -8,12 +11,12 @@
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xhubioTable/data-generator.git"
+    "url": "git+https://github.com/xhubiotable/data-generator.git"
   },
   "bugs": {
-    "url": "https://github.com/xhubioTable/data-generator/issues"
+    "url": "https://github.com/xhubiotable/data-generator/issues"
   },
-  "homepage": "https://github.com/xhubioTable/data-generator#readme",
+  "homepage": "https://github.com/xhubiotable/data-generator#readme",
   "scripts": {
     "build": "npm run src_format && npm run src_lint && babel src -d lib",
     "src_lint": "eslint src tests",
@@ -31,7 +34,6 @@
   ],
   "license": "ISC",
   "devDependencies": {
-    "@xhubio/table-import-spreadsheet-all": "2.0.0",
     "assert": "1.4.1",
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
@@ -56,7 +58,7 @@
     "semantic-release": "15.5.0"
   },
   "dependencies": {
-    "@xhubioTable/logger": "0.0.1",
+    "@xhubiotable/logger": "1.0.1",
     "faker": "4.1.0",
     "jsonfile": "4.0.0",
     "mkdirp": "0.5.1"

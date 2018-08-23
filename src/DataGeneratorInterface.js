@@ -4,7 +4,7 @@ import path from 'path'
 import fs from 'fs'
 import mkdirp from 'mkdirp'
 import jsonfile from 'jsonfile'
-import { getLoggerMemory } from '@xhubioTable/logger'
+import { getLoggerMemory } from '@xhubiotable/logger'
 
 export default class DataGeneratorInterface {
   /**
