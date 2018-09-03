@@ -79,11 +79,24 @@ export default class DataGeneratorInterface {
     if (fs.existsSync(this.storeFileName())) {
       // eslint-disable-next-line no-sync
       this.store = jsonfile.readFileSync(this.storeFileName())
+    } else {
+      this.store = { uniqueSet: [], instanceData: [] }
     }
-    this.store = {}
+
+    // Get the data from the store and stores them in the set and map
+    this.clearContext()
+    this.uniqueSet = new Set(this.store.uniqueSet)
+    this.instanceData = new Map(this.store.instanceData)
+
+    delete this.store.uniqueSet
+    delete this.store.instanceData
   }
 
   saveStore() {
+    // Stores the data from the SET and MAP into the store
+    this.store.uniqueSet = Array.from(this.uniqueSet)
+    this.store.instanceData = Array.from(this.instanceData)
+
     // eslint-disable-next-line no-sync
     if (!fs.existsSync(this.varDir)) {
       mkdirp(this.varDir)
