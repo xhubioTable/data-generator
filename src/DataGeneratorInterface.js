@@ -21,8 +21,8 @@ export default class DataGeneratorInterface {
     args = {}
   ) {
     const options = {
-      ...args,
       ...{ unique: true, maxUniqueTries: 100, varDir: 'var', useStore: false },
+      ...args,
     }
 
     this.logger = options.logger || getLoggerMemory()
