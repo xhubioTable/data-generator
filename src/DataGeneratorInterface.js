@@ -1,5 +1,6 @@
 'use strict'
 
+import assert from 'assert'
 import path from 'path'
 import fs from 'fs'
 import mkdirp from 'mkdirp'
@@ -155,13 +156,15 @@ export default class DataGeneratorInterface {
       return genData
     } catch (err) {
       const testcaseName = testcase ? testcase.name : undefined
+      const tableName = todoGenerator ? todoGenerator.tableName : 'unknown'
+      const fieldName = todoGenerator ? todoGenerator.fieldName : 'unknown'
 
       this.logger.error({
         message: err.message,
         function: 'generate',
         testcaseName,
-        tableName: todoGenerator.tableName,
-        fieldName: todoGenerator.fieldName,
+        tableName,
+        fieldName,
         stack: err.stack,
       })
     }
