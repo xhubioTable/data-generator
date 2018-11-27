@@ -1,10 +1,3 @@
-'use strict'
-
-import assert from 'assert'
-import path from 'path'
-import fs from 'fs'
-import mkdirp from 'mkdirp'
-import jsonfile from 'jsonfile'
 import { getLoggerMemory } from '@xhubiotable/logger'
 
 export default class DataGeneratorInterface {
@@ -22,12 +15,13 @@ export default class DataGeneratorInterface {
     args = {}
   ) {
     const options = {
-      ...{ unique: true, maxUniqueTries: 100, varDir: 'var', useStore: false },
+      ...{ unique: true, maxUniqueTries: 100 },
       ...args,
     }
 
     this.logger = options.logger || getLoggerMemory()
 
+    // The registry where all the available generators are registered
     this.serviceRegistry = serviceRegistry
 
     // if set to a true value the data generator should return unique values
@@ -45,68 +39,27 @@ export default class DataGeneratorInterface {
     this.instanceData = new Map()
 
     // The directory used to store the unique data
-    this.varDir = options.varDir
+    this.varDir = options.varDir ? options.varDir : 'var'
 
     // should this generator use a store
     this.useStore = options.useStore
 
-    // the file name used to store the data
-    this.storeName = options.storeName
-      ? options.storeName
-      : this.constructor.name
-
-    // The data here will be save and loaded
-    this.store = {}
-
     // will be set when registered in the registry
     this.name = 'UNKNOWN'
-
-    if (this.useStore) {
-      this.loadStore()
-    }
   }
 
-  storeFileName() {
-    return path.join(this.varDir, this.storeName + '.json')
+  /**
+   * Loads the data from the file
+   */
+  async loadStore() {
+    throw new Error(`Implement this method`)
   }
 
-  loadStore() {
-    // eslint-disable-next-line no-sync
-    if (!fs.existsSync(this.varDir)) {
-      mkdirp(this.varDir)
-    }
-
-    // eslint-disable-next-line no-sync
-    if (fs.existsSync(this.storeFileName())) {
-      // eslint-disable-next-line no-sync
-      this.store = jsonfile.readFileSync(this.storeFileName())
-    } else {
-      this.store = { uniqueSet: [], instanceData: [] }
-    }
-
-    // Get the data from the store and stores them in the set and map
-    this.clearContext()
-    this.uniqueSet = new Set(this.store.uniqueSet)
-    this.instanceData = new Map(this.store.instanceData)
-
-    delete this.store.uniqueSet
-    delete this.store.instanceData
-  }
-
-  saveStore() {
-    // Stores the data from the SET and MAP into the store
-    this.store.uniqueSet = Array.from(this.uniqueSet)
-    this.store.instanceData = Array.from(this.instanceData)
-
-    // eslint-disable-next-line no-sync
-    if (!fs.existsSync(this.varDir)) {
-      mkdirp(this.varDir)
-    }
-
-    if (Object.keys(this.store).length > 0) {
-      // eslint-disable-next-line no-sync
-      jsonfile.writeFileSync(this.storeFileName(), this.store)
-    }
+  /**
+   * Saves the data to the store
+   */
+  async saveStore() {
+    throw new Error(`Implement this method`)
   }
 
   /**
@@ -143,31 +96,12 @@ export default class DataGeneratorInterface {
    * then the generator should return 'undefined'. So it could be called later. This may be the case if the generator
    * needs referenced data which is not generated yet.
    */
-  generate(instanceId, testcase, todoGenerator) {
+  // eslint-disable-next-line no-unused-vars
+  async generate(instanceId, testcase, todoGenerator) {
     if (instanceId && this.instanceData.has(instanceId)) {
       return this.instanceData.get(instanceId)
     }
-
-    try {
-      const genData = this._doGenerate(instanceId, testcase, todoGenerator)
-      if (genData !== undefined && instanceId) {
-        this.instanceData.set(instanceId, genData)
-      }
-      return genData
-    } catch (err) {
-      const testcaseName = testcase ? testcase.name : undefined
-      const tableName = todoGenerator ? todoGenerator.tableName : 'unknown'
-      const fieldName = todoGenerator ? todoGenerator.fieldName : 'unknown'
-
-      this.logger.error({
-        message: err.message,
-        function: 'generate',
-        testcaseName,
-        tableName,
-        fieldName,
-        stack: err.stack,
-      })
-    }
+    throw new Error(`Implement this method`)
   }
 
   /**
@@ -181,7 +115,7 @@ export default class DataGeneratorInterface {
    * @returns todos {array} The generated postProcessTodos
    */
   // eslint-disable-next-line no-unused-vars
-  createPostProcessTodos(instanceId, testcase, todoGenerator) {
+  async createPostProcessTodos(instanceId, testcase, todoGenerator) {
     return
   }
 
@@ -195,19 +129,5 @@ export default class DataGeneratorInterface {
    * @param todoGenerator {object} The todo action for the postprocessing
    */
   // eslint-disable-next-line no-unused-vars
-  postProcess(instanceId, testcase, todoGenerator) {}
-
-  /**
-   * This method returns the generated data. It must not update the data in the testcase.
-   * @see  generate
-   */
-  // eslint-disable-next-line no-unused-vars
-  _doGenerate(instanceId, testcase, todoGenerator) {}
-
-  /**
-   * Returns the context of this generator. So you have the complete data generated
-   */
-  getModel() {
-    return this.instanceData
-  }
+  async postProcess(instanceId, testcase, todoGenerator) {}
 }
