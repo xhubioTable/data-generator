@@ -1,0 +1,27 @@
+== Generator interface
+
+async loadStore()::
+ (Not implemented) This function should load the store of the generator.
+
+async saveStore()::
+ (Not implemented) This function should save the store of the generator.
+
+getGenerator(generatorName)::
+  (Implemented)
+  Returns the generator with the given name. If the generator does not exists, it throws
+  an exception.
+
+clearContext()::
+  (Implemented)
+  Clears the 'uniqueSet' and the 'instanceData' property.
+
+async generate(instanceId, testcase, todoGenerator)::
+  (Not implemented) This is the method normally do all the work. Here the data is generated.
+
+async createPostProcessTodos(instanceId, testcase, todoGenerator)::
+  (Not implemented) Only needed if the generator should do post processing.
+  Sometimes the generator should not create the data directly or should do additional work later on.
+
+
+async postProcess(instanceId, testcase, todoGenerator)::
+  (Not implemented) Executes the post process.
