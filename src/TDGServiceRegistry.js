@@ -29,14 +29,30 @@ export default class TDGServiceRegistry {
   }
 
   /**
-   * Saves the store of each registered Generator
+   * Calls the 'saveStore()' function of each registered Generator
    */
-  saveStore() {
-    this.services.forEach(generator => {
-      generator.saveStore()
-    })
+  async saveStore() {
+    for (const genName of this.services.keys()) {
+      const gen = this.services.get(genName)
+      await gen.saveStore()
+    }
   }
 
+  /**
+   * Calls the 'loadStore()' function of each registered Generator
+   */
+  async loadStore() {
+    for (const genName of this.services.keys()) {
+      const gen = this.services.get(genName)
+      await gen.loadStore()
+    }
+  }
+
+  /**
+   * returns the generator with the given service namne.
+   * If the generator could not be found an error is thrown.
+   * @param serviceName {string} The name under the generator is registered
+   */
   getGenerator(serviceName) {
     assert.ok(serviceName)
 

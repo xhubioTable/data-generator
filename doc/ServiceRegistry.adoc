@@ -1,0 +1,18 @@
+== Service registry
+The service registry registers all the generators available for the processor.
+So if a generator should be used by the processor it must be registered in this
+service registry.
+
+=== Methods of the registry
+
+registerGenerator(serviceName, generator)::
+  Register a generator under the given name into the registry.
+
+getGenerator(serviceName)::
+  Returns the generator with the given service name. If the generator could not be found an error is thrown.
+
+async loadStore()::
+ Calls the 'loadStore()' function of each registered generator.
+
+async saveStore()::
+  Calls the 'saveStore()' function of each registered generator.
