@@ -1,12 +1,12 @@
 'use strict'
 
 import assert from 'assert'
-import DataGeneratorInterface from '../DataGeneratorInterface'
+import DataGeneratorBase from '../DataGeneratorBase'
 import { execStringFunction } from '../helper'
 import faker from 'faker'
 import { getLoggerMemory } from '@xhubiotable/logger'
 
-export default class GeneratorFaker extends DataGeneratorInterface {
+export default class GeneratorFaker extends DataGeneratorBase {
   constructor(serviceRegistry, args = {}) {
     super(serviceRegistry, args)
     this.logger = args.logger ? args.logger : getLoggerMemory()
