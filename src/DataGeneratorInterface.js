@@ -1,10 +1,16 @@
 import { getLoggerMemory } from '@xhubiotable/logger'
 
+/**
+ * The interface definition for all the data generators.
+ * The Processor uses the data generators to create the data.
+ */
 export default class DataGeneratorInterface {
   /**
    * The service registry is used to make data generators available to other
    * generators. If a generator does not need access to other generators the
    * serviceRegistry my be left empty
+   * @param serviceRegistry {object} The service registry with all the registered generators.
+   * @param args {object} Any arguments to configure this generator.
    */
   constructor(
     serviceRegistry = {
@@ -19,37 +25,41 @@ export default class DataGeneratorInterface {
       ...args,
     }
 
+    /** The logger used for logging */
     this.logger = options.logger || getLoggerMemory()
 
-    // The registry where all the available generators are registered
+    /** The registry where all the available generators are registered */
     this.serviceRegistry = serviceRegistry
 
-    // if set to a true value the data generator should return unique values
-    // What unique means depends on the generator. If the generator create more than one field
-    // is up to the generator
+    /**
+     * If set to a true value the data generator should return unique values
+     * What unique means depends on the generator. If the generator create more than one field
+     * is up to the generator
+     */
     this.unique = options.unique
 
-    // defines how many tries the generator will do for getting a unique value until it throws an error
+    /** Defines how many tries the generator will do for getting a unique value until it throws an error */
     this.maxUniqueTries = options.maxUniqueTries
 
-    // Stores the data which needs to be unique
+    /** Stores the data which needs to be unique */
     this.uniqueSet = new Set()
 
-    // Stores the data per testcase instance id
+    /** Stores the data per testcase instance id */
     this.instanceData = new Map()
 
-    // The directory used to store the unique data
+    /** The directory used to store the unique data */
     this.varDir = options.varDir ? options.varDir : 'var'
 
-    // should this generator use a store
+    /** Should this generator use a store */
     this.useStore = options.useStore
 
-    // will be set when registered in the registry
+    /** Is set when this generator is registered in the service registry */
     this.name = 'UNKNOWN'
   }
 
   /**
-   * Loads the data from the file
+   * Loads the data from the file.
+   * @async
    */
   async loadStore() {
     throw new Error(`Implement this method`)
@@ -57,6 +67,7 @@ export default class DataGeneratorInterface {
 
   /**
    * Saves the data to the store
+   * @async
    */
   async saveStore() {
     throw new Error(`Implement this method`)
@@ -95,6 +106,7 @@ export default class DataGeneratorInterface {
    * @returns data {object} The genrated data. If the data could not be generated because of missing data
    * then the generator should return 'undefined'. So it could be called later. This may be the case if the generator
    * needs referenced data which is not generated yet.
+   * @async
    */
   // eslint-disable-next-line no-unused-vars
   async generate(instanceId, testcase, todoGenerator) {
@@ -113,6 +125,7 @@ export default class DataGeneratorInterface {
    * @param testcase {object} The already generated testcase data object.
    * @param todoGenerator {object} The generator todo
    * @returns todos {array} The generated postProcessTodos
+   * @async
    */
   // eslint-disable-next-line no-unused-vars
   async createPostProcessTodos(instanceId, testcase, todoGenerator) {
@@ -127,6 +140,7 @@ export default class DataGeneratorInterface {
    * will be returned. If this is undefined then always a new value will be created.
    * @param testcase {object} The already generated testcase object.
    * @param todoGenerator {object} The todo action for the postprocessing
+   * @async
    */
   // eslint-disable-next-line no-unused-vars
   async postProcess(instanceId, testcase, todoGenerator) {}

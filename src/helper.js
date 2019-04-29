@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * Execute the function with the given method name splitted in an array of string
  * @param params {array} An array of string defining the method to call.

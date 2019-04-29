@@ -11,6 +11,12 @@ const fileAccess = util.promisify(fs.access)
 
 const md = util.promisify(mkdirp)
 
+/**
+ * The Base Generator implementation.
+ * This class implements loading and saving of the generated data.
+ * Also it handels the instance id. If a generator is called with the same
+ * instance id it is expected that the generator returns the same data.
+ */
 export default class DataGeneratorBase extends DataGeneratorInterface {
   /**
    * The service registry is used to make data generators available to other
@@ -25,12 +31,12 @@ export default class DataGeneratorBase extends DataGeneratorInterface {
 
     super(serviceRegistry, options)
 
-    // the file name used to store the data
+    /** the file name used to store the data */
     this.storeName = options.storeName
       ? options.storeName
       : this.constructor.name
 
-    // The data here will be save and loaded
+    /** The data here will be save and loaded */
     this.store = {}
   }
 
