@@ -22,24 +22,34 @@ export default class GeneratorFaker extends DataGeneratorBase {
   /**
    * Generates the value and saves it for the given instance.
    * @param instanceId {string} The testcase instance id. for the same instance id the same data object
-   * will be returned. If this i undefined then always a new value will be created.
-   * @param testcase {object} The already generated testcase object.
-   * @param meta {object} Some meta information. tableName, row, column, ...
-   * @param args {object/string} Any arguments the generator may need
+   * will be returned. If this is undefined then always a new value will be created.
+   * @param testcase {object} The already generated testcase data object.
+   * @param todoGenerator {object} The generator todo
    * @returns data {object} The genrated data. If the data could not be generated because of missing data
    * then the generator should return 'undefined'. So it could be called later. This may be the case if the generator
    * needs referenced data which is not generated yet.
    */
-  generate(instanceId, testcase, meta, args) {
+  generate(instanceId, testcase, todoGenerator) {
     assert.ok(instanceId)
     assert.ok(testcase)
-    assert.ok(testcase.data)
-    assert.ok(args)
+    assert.ok(todoGenerator)
+    assert.ok(
+      todoGenerator.config,
+      'No Arguments given for Generator Faker. The argument defines which faker function to call'
+    )
+
+    assert.notStrictEqual(
+      todoGenerator.config,
+      '',
+      'No Arguments given for Generator Faker. The argument defines which faker function to call'
+    )
+
+    const args = todoGenerator.config
 
     if (instanceId && this.instanceData.has(instanceId + args)) {
       return this.instanceData.get(instanceId + args)
     }
-    const genData = this._doGenerate(instanceId + args, testcase, meta, args)
+    const genData = this._doGenerate(instanceId + args, testcase, todoGenerator)
     if (genData !== undefined && instanceId) {
       this.instanceData.set(instanceId + args, genData)
     }
@@ -52,12 +62,11 @@ export default class GeneratorFaker extends DataGeneratorBase {
    * @param instanceId {string} The testcase instance id. for the same instance id the same data object
    * will be returned. If this i undefined then always a new value will be created.
    * @param testcase {object} The already generated testcase object.
-   * @param meta {object} Some meta information. tableName, row, column, ...
-   * @param args {object/string} Any arguments the generator may need
+   * @param todoGenerator {object} The generator todo
    * @returns data {object} The genrated data. If the data could not be generated because of missing data
    */
-  // eslint-disable-next-line no-unused-vars
-  _doGenerate(instanceId, testcase, meta, args) {
+  _doGenerate(instanceId, testcase, todoGenerator) {
+    const args = todoGenerator.config
     if (args === undefined || typeof args !== 'string') {
       throw new Error(`If this generator is called, the name of the method must be given.
       See https://www.npmjs.com/package/faker for more details.
