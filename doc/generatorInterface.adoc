@@ -1,4 +1,4 @@
-== Generator interface
+== Generator Interface
 
 async loadStore()::
  (Not implemented) This function should load the store of the generator.

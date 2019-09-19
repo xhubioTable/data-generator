@@ -1,5 +1,4 @@
 == Generator Base
-The base implementation of the interface in 'DataGeneratorBase.js' adds the load and
-save store function. Also it handles the use of the instanceId.
+The base implementation of the interface in 'DataGeneratorBase.js' adds the load and save store function. It Also handles the use of the instanceId.
 
 It adds a new function '_doGenerate()' which needs to be overwritten.
