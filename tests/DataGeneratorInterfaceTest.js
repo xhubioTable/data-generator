@@ -1,7 +1,7 @@
 'use strict'
 
-import { TDGServiceRegistry } from '../lib/index'
-import { DataGeneratorInterface } from '../lib/index'
+import { TDGServiceRegistry } from '../src/index'
+import { DataGeneratorInterface } from '../src/index'
 
 test('Test error no registry', () => {
   const gen = new DataGeneratorInterface()

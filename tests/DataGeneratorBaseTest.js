@@ -4,8 +4,8 @@ import fs from 'fs'
 import rimraf from 'rimraf'
 import mkdirp from 'mkdirp'
 
-import { TDGServiceRegistry } from '../lib/index'
-import { DataGeneratorBase } from '../lib/index'
+import { TDGServiceRegistry } from '../src/index'
+import { DataGeneratorBase } from '../src/index'
 
 const rm = util.promisify(rimraf)
 const readFile = util.promisify(fs.readFile)
