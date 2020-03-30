@@ -8,14 +8,13 @@ import { TDGServiceRegistry } from '../lib/index'
 import { DataGeneratorBase } from '../lib/index'
 
 const rm = util.promisify(rimraf)
-const md = util.promisify(mkdirp)
 const readFile = util.promisify(fs.readFile)
 
 const VOLATILE = path.join(__dirname, 'volatile')
 
 beforeAll(async () => {
   await rm(VOLATILE)
-  await md(VOLATILE)
+  await mkdirp(VOLATILE)
 })
 
 test('Test error no registry', () => {

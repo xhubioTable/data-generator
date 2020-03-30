@@ -9,8 +9,6 @@ const writeFile = util.promisify(fs.writeFile)
 const readFile = util.promisify(fs.readFile)
 const fileAccess = util.promisify(fs.access)
 
-const md = util.promisify(mkdirp)
-
 /**
  * The Base Generator implementation.
  * This class implements loading and saving of the generated data.
@@ -52,7 +50,7 @@ export default class DataGeneratorBase extends DataGeneratorInterface {
    */
   async loadStore() {
     if (this.useStore) {
-      await md(this.varDir)
+      await mkdirp(this.varDir)
 
       try {
         await fileAccess(this.storeFileName, fs.constants.F_OK)
@@ -84,7 +82,7 @@ export default class DataGeneratorBase extends DataGeneratorInterface {
       this.store.uniqueSet = Array.from(this.uniqueSet)
       this.store.instanceData = Array.from(this.instanceData)
 
-      await md(this.varDir)
+      await mkdirp(this.varDir)
 
       if (Object.keys(this.store).length > 0) {
         const storeDataRaw = JSON.stringify(this.store, null, 2)
