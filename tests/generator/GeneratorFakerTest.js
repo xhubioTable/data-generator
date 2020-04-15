@@ -1,6 +1,6 @@
 'use strict'
 
-import { GeneratorFaker } from '../../lib/index'
+import { GeneratorFaker } from '../../src/index'
 
 const gen = new GeneratorFaker()
 

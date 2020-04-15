@@ -1,7 +1,7 @@
 import path from 'path'
 
-import { TDGServiceRegistry } from '../lib/index'
-import { DataGeneratorBase } from '../lib/index'
+import { TDGServiceRegistry } from '../src/index'
+import { DataGeneratorBase } from '../src/index'
 
 test('Test that registerGenerator could be retrieved', () => {
   const registry = new TDGServiceRegistry()
