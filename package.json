@@ -72,6 +72,6 @@
     "@babel/runtime": "7.9.2",
     "@xhubiotable/logger": "2.0.10",
     "faker": "4.1.0",
-    "mkdirp": "1.0.3"
+    "mkdirp": "1.0.4"
   }
 }
