@@ -76,7 +76,7 @@
   },
   "template": {
     "usedBy": [
-      "xhubioTable/quickstart-source"
+      "xhubioTable/tutorial-source"
     ]
   }
 }
