@@ -73,5 +73,10 @@
     "@xhubiotable/logger": "2.0.10",
     "faker": "4.1.0",
     "mkdirp": "1.0.3"
+  },
+  "template": {
+    "usedBy": [
+      "xhubioTable/model-decision"
+    ]
   }
 }
