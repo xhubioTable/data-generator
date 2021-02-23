@@ -69,7 +69,7 @@
     "semantic-release": "17.3.0"
   },
   "dependencies": {
-    "@babel/runtime": "7.12.5",
+    "@babel/runtime": "7.13.2",
     "@xhubiotable/logger": "2.0.12",
     "faker": "5.1.0",
     "mkdirp": "1.0.4"
