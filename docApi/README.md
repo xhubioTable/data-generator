@@ -1,4 +1,4 @@
-@xhubiotable/data-generator / [Exports](docApi/modules.md)
+@xhubiotable/data-generator / [Exports](modules.md)
 
 # Data Generator
 
@@ -11,7 +11,7 @@ it must nevertheless return a dummy value.
 
 ### Generator Lifecycle
 
-![Generator Lifecycle](doc/images/data-generator/lifeCycle.svg)
+![Generator Lifecycle](images/data-generator/lifeCycle.svg)
 
 The image shows the abstract lifecycle of a generator. When the
 processor starts up, it gets all the generators registered in the

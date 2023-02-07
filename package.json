@@ -1,37 +1,42 @@
 {
   "name": "@xhubiotable/data-generator",
-  "version": "0.0.0-semantic-release",
+  "version": "0.0.0-semantic-version",
   "publishConfig": {
     "access": "public"
   },
-  "description": "",
+  "description": "My great XXX Lib",
   "keywords": [
     "decision-table",
     "equivalence-class-table",
     "data generator",
     "test data",
-    "test"
+    "test",
+    "build",
+    "typescript"
   ],
-  "main": "lib/index.js",
+  "main": "dist/src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xhubioTable/data-generator.git"
+    "url": "https://github.com/xxx.git"
   },
   "bugs": {
     "url": "https://github.com/xhubioTable/data-generator/issues"
   },
   "homepage": "https://github.com/xhubioTable/data-generator#readme",
   "scripts": {
-    "build": "yarn src_format && yarn src_lint && babel src -d lib",
-    "src_lint": "eslint src tests",
-    "src_format": "prettier --no-semi --single-quote --trailing-comma es5 --write \"{src,tests}/**/*.js\"",
-    "test_only": "jest",
-    "test": "yarn build && jest -c jest.config.json",
-    "debug": "yarn build && node --inspect-brk ./node_modules/.bin/jest -i --config=./jest.config.json",
-    "doc_html": "npx jsdoc -r -c jsdoc.config.json src",
-    "doc_md": "npx jsdoc2md -c jsdoc.config.json src/*.js > doc/api.md ",
-    "doc": "yarn doc_html && yarn doc_md",
-    "prepare": "yarn build"
+    "build": "npm run format && npm run lint && rimraf dist && tsc && depcheck",
+    "build:debug": "npm run format && npm run lint && rimraf dist && tsc --sourceMap true",
+    "debug": "npm run build:debug && node -r ts-node/register --inspect-brk ./node_modules/.bin/jest -i --config=./jest.config.js",
+    "doc": "npm run docPdf && npm run docDocbook && npm run doc2md && npm run docApi && npx xhubio-scripts-lib replaceImageLinks",
+    "doc2md": "pandoc -f docbook -t markdown_strict docTmp/index.xml -o README.md",
+    "docApi": "npx typedoc --plugin typedoc-plugin-markdown",
+    "docDocbook": "asciidoctor -a ./node_modules/.bin/mmdc -r asciidoctor-diagram -b docbook5 doc/index.adoc -o docTmp/index.xml",
+    "docPdf": "asciidoctor-pdf -a ./node_modules/.bin/mmdc -r asciidoctor-diagram doc/index.adoc -o docTmp/index.pdf",
+    "format": "prettier --write \"{src,tests}/**/*.{js,ts,yml}\"",
+    "lint": "eslint \"{src,tests}/**/*.{js,ts}\"",
+    "test": "npm run build && jest -c jest.config.js",
+    "test:only": "jest -c jest.config.js",
+    "xhubioUpdate": "npx xhubio-scripts-lib xhubioUpdate"
   },
   "contributors": [
     {
@@ -39,36 +44,16 @@
       "email": "torstenlink@gmx.de"
     }
   ],
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "7.14.8",
-    "@babel/core": "7.14.8",
-    "@babel/eslint-parser": "^7.13.4",
-    "@babel/eslint-plugin": "^7.13.0",
-    "@babel/node": "7.14.7",
-    "@babel/plugin-proposal-object-rest-spread": "7.14.7",
-    "@babel/plugin-transform-runtime": "7.14.5",
-    "@babel/polyfill": "7.12.1",
-    "@babel/preset-env": "7.14.8",
-    "@babel/register": "7.14.5",
-    "@xhubiotable/importer-xlsx": "2.0.13",
-    "babel-jest": "27.0.6",
-    "eslint": "7.31.0",
-    "eslint-config-prettier": "8.3.0",
-    "jest": "27.0.6",
-    "jest-cli": "27.0.6",
-    "jest-environment-node-debug": "2.0.0",
-    "jsdoc": "3.6.7",
-    "jsdoc-export-default-interop": "0.3.1",
-    "jsdoc-to-markdown": "7.0.1",
-    "prettier": "2.3.2",
-    "rimraf": "3.0.2",
-    "semantic-release": "17.4.4"
+    "@xhubio/build-base": "^1.0.89"
   },
   "dependencies": {
-    "@babel/runtime": "7.14.8",
-    "@xhubiotable/logger": "2.0.14",
-    "faker": "5.5.3",
-    "mkdirp": "1.0.4"
-  }
+    "@faker-js/faker": "^7.6.0",
+    "@tlink/logger": "0.0.0-semantic-version"
+  },
+  "types": "dist/src/index.d.ts",
+  "files": [
+    "dist/src/**/*"
+  ]
 }

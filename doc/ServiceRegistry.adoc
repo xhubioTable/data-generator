@@ -8,7 +8,7 @@ service registry.
 registerGenerator(serviceName, generator)::
   Register a generator under the given name into the registry.
 
-getGenerator(serviceName)::
+getGenerator(generatorName)::
   Returns the generator with the given service name. If the generator could not be found an error is thrown.
 
 async loadStore()::
