@@ -1,7 +1,7 @@
-import { LoggerInterface } from '@tlink/logger'
-import { DataGeneratorRegistryInterface } from './InterfaceDataGeneratorRegistry'
-import { DataGeneratorConfigInterface } from './InterfaceDataGeneratorConfig'
-import { PostProcessAction } from './InterfacePostProcessAction'
+import { type LoggerInterface } from '@tlink/logger'
+import { type DataGeneratorRegistryInterface } from './InterfaceDataGeneratorRegistry'
+import { type DataGeneratorConfigInterface } from './InterfaceDataGeneratorConfig'
+import { type PostProcessAction } from './InterfacePostProcessAction'
 
 export interface DataGeneratorInterface {
   /** The Logger for this generator */
@@ -9,13 +9,6 @@ export interface DataGeneratorInterface {
 
   /** The service registry where all the generators are registered */
   registry: DataGeneratorRegistryInterface
-
-  /**
-   * If set to a true value the data generator should return unique values
-   * What unique means depends on the generator. If the generator create more than one field
-   * is up to the generator
-   */
-  unique: boolean
 
   /** Defines how many tries the generator will do for getting a unique value until it throws an error */
   maxUniqueTries: number
@@ -68,7 +61,7 @@ export interface DataGeneratorInterface {
    * then the generator should return 'undefined'. So it could be called later. This may be the case if the generator
    * needs referenced data which is not generated yet.
    */
-  generate: (request: DataGeneratorGenerateRequest) => Promise<any | undefined>
+  generate: (request?: DataGeneratorGenerateRequest) => Promise<any | undefined>
 
   /**
    * Creates the postProcessTodos. Each generator could creates todos which will be executed later on.
@@ -95,11 +88,11 @@ export interface DataGeneratorGenerateRequest {
    * The testcase instance id. for the same instance id the same data object
    * will be returned. If this is undefined then always a new value will be created.
    */
-  instanceId: string
+  instanceId?: string
 
   /** The already generated testcase data object. */
   testcaseDataObject?: any
 
   /** Any additional parameter for this generator call */
-  config: DataGeneratorConfigInterface
+  config?: DataGeneratorConfigInterface
 }

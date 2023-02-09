@@ -1,12 +1,12 @@
 import path from 'path'
 import fs from 'fs'
 import {
-  DataGeneratorInterface,
-  DataGeneratorGenerateRequest
+  type DataGeneratorInterface,
+  type DataGeneratorGenerateRequest
 } from './InterfaceDataGenerator'
-import { DataGeneratorRegistryInterface } from './InterfaceDataGeneratorRegistry'
-import { LoggerInterface } from '@tlink/logger'
-import { PostProcessAction } from './InterfacePostProcessAction'
+import { type DataGeneratorRegistryInterface } from './InterfaceDataGeneratorRegistry'
+import { type LoggerInterface } from '@tlink/logger'
+import { type PostProcessAction } from './InterfacePostProcessAction'
 
 /**
  * Defines the option for the DataGenerator Constructor
@@ -20,13 +20,6 @@ export interface DataGeneratorOptions {
 
   /** The Logger for this generator */
   logger: LoggerInterface
-
-  /**
-   * If set to a true value the data generator should return unique values
-   * What unique means depends on the generator. If the generator create more than one field
-   * is up to the generator
-   */
-  unique?: boolean
 
   /** The directory used to store the unique data */
   storeDir?: string
@@ -62,13 +55,6 @@ export class DataGeneratorBase implements DataGeneratorInterface {
   /** The service registry where all the generators are registered */
   registry: DataGeneratorRegistryInterface
 
-  /**
-   * If set to a true value the data generator should return unique values
-   * What unique means depends on the generator. If the generator create more than one field
-   * is up to the generator
-   */
-  unique: boolean
-
   /** Defines how many tries the generator will do for getting a unique value until it throws an error */
   maxUniqueTries: number
 
@@ -95,7 +81,6 @@ export class DataGeneratorBase implements DataGeneratorInterface {
     this.logger = options.logger
     this.registry = options.registry
 
-    this.unique = options.unique ?? false
     this.storeDir = options.storeDir ?? 'store'
     this.storeName = options.storeName ?? this.constructor.name
     this.useStore = options.useStore ?? false
@@ -182,8 +167,9 @@ export class DataGeneratorBase implements DataGeneratorInterface {
    * then the generator should return 'undefined'. So it could be called later. This may be the case if the generator
    * needs referenced data which is not generated yet.
    */
-  public async generate(request: DataGeneratorGenerateRequest): Promise<any> {
-    const { instanceId, config } = request
+  public async generate(request?: DataGeneratorGenerateRequest): Promise<any> {
+    const instanceId = request?.instanceId
+    const config = request?.config
 
     if (instanceId && this.instanceData.has(instanceId)) {
       return this.instanceData.get(instanceId)
@@ -197,9 +183,9 @@ export class DataGeneratorBase implements DataGeneratorInterface {
       }
       return genData
     } catch (err) {
-      const testcaseName = config.meta.testcaseName
-      const tableName = config.meta.tableName ?? 'unknown'
-      const fieldName = config.meta.fieldName ?? 'unknown'
+      const testcaseName = config?.meta.testcaseName
+      const tableName = config?.meta.tableName ?? 'unknown'
+      const fieldName = config?.meta.fieldName ?? 'unknown'
 
       await this.logger.error({
         message: (err as Error).message,
@@ -241,6 +227,6 @@ export class DataGeneratorBase implements DataGeneratorInterface {
    * @see  generate
    */
   protected async doGenerate(
-    request: DataGeneratorGenerateRequest
+    request?: DataGeneratorGenerateRequest
   ): Promise<any> {}
 }

@@ -1,4 +1,4 @@
-import { DataGeneratorConfigMetaInterface } from './InterfaceDataGeneratorConfigMeta'
+import { type DataGeneratorConfigMetaInterface } from './InterfaceDataGeneratorConfigMeta'
 
 /**
  * Defines the config object for the generator call

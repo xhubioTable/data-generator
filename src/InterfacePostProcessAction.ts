@@ -1,4 +1,4 @@
-import { DataGeneratorConfigMetaInterface } from './InterfaceDataGeneratorConfigMeta'
+import { type DataGeneratorConfigMetaInterface } from './InterfaceDataGeneratorConfigMeta'
 
 export interface PostProcessAction {
   /** The configuration for the generator call */

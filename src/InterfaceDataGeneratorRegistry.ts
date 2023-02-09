@@ -1,4 +1,4 @@
-import { DataGeneratorInterface } from './InterfaceDataGenerator'
+import { type DataGeneratorInterface } from './InterfaceDataGenerator'
 
 export interface DataGeneratorRegistryInterface {
   /**

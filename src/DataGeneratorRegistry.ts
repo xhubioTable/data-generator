@@ -1,5 +1,5 @@
-import { DataGeneratorInterface } from './InterfaceDataGenerator'
-import { DataGeneratorRegistryInterface } from './InterfaceDataGeneratorRegistry'
+import { type DataGeneratorInterface } from './InterfaceDataGenerator'
+import { type DataGeneratorRegistryInterface } from './InterfaceDataGeneratorRegistry'
 
 /**
  * The data generator registry stores all the generators by its name. So each generator could ask the service
@@ -9,7 +9,7 @@ import { DataGeneratorRegistryInterface } from './InterfaceDataGeneratorRegistry
  */
 export class DataGeneratorRegistry implements DataGeneratorRegistryInterface {
   /** This map stortes all the data generators */
-  services: Map<String, DataGeneratorInterface> = new Map()
+  services = new Map<string, DataGeneratorInterface>()
 
   /**
    * Registers a new Generator to the registry. If there already was a generator with the same name
