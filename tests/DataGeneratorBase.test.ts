@@ -1,49 +1,44 @@
-import path from 'path'
-import util from 'util'
-import fs from 'fs'
-import rimraf from 'rimraf'
-import mkdirp from 'mkdirp'
+import path from 'node:path'
+import fs from 'node:fs/promises'
 
-import { TDGServiceRegistry } from '../src/index'
+import { DataGeneratorRegistry } from '../src/index'
 import { DataGeneratorBase } from '../src/index'
-
-const rm = util.promisify(rimraf)
-const readFile = util.promisify(fs.readFile)
 
 const VOLATILE = path.join(__dirname, 'volatile')
 
 beforeAll(async () => {
-  await rm(VOLATILE)
-  await mkdirp(VOLATILE)
-})
-
-test('Test error no registry', () => {
-  const gen = new DataGeneratorBase()
-  expect(() => {
-    gen.getGenerator('myGen')
-  }).toThrow('No service registry definend')
+  await fs.rm(VOLATILE, { recursive: true, force: true })
+  await fs.mkdir(VOLATILE, { recursive: true })
 })
 
 test('storeFileName 1', () => {
-  const registry = new TDGServiceRegistry()
-  const gen = new DataGeneratorBase(registry, { storeName: 'huhu' })
+  const generatorRegistry = new DataGeneratorRegistry()
+  const gen = new DataGeneratorBase({
+    generatorRegistry,
+    name: 'dummy1',
+    storeName: 'huhu'
+  })
   expect(gen.storeFileName).toEqual('var/huhu.json')
 })
 
 test('storeFileName 2', () => {
-  const registry = new TDGServiceRegistry()
-  const gen = new DataGeneratorBase(registry, {
+  const generatorRegistry = new DataGeneratorRegistry()
+  const gen = new DataGeneratorBase({
+    generatorRegistry,
+    name: 'dummy1',
     storeName: 'huhu',
-    varDir: 'help',
+    varDir: 'help'
   })
   expect(gen.storeFileName).toEqual('help/huhu.json')
 })
 
 test('loadStore: useStore=false', async () => {
-  const registry = new TDGServiceRegistry()
-  const gen = new DataGeneratorBase(registry, {
+  const generatorRegistry = new DataGeneratorRegistry()
+  const gen = new DataGeneratorBase({
+    generatorRegistry,
+    name: 'dummy1',
     storeName: 'simpleStore',
-    varDir: path.join('tests', 'fixtures'),
+    varDir: path.join('tests', 'fixtures')
   })
 
   await gen.loadStore()
@@ -54,11 +49,13 @@ test('loadStore: useStore=false', async () => {
 })
 
 test('loadStore: useStore=true', async () => {
-  const registry = new TDGServiceRegistry()
-  const gen = new DataGeneratorBase(registry, {
+  const generatorRegistry = new DataGeneratorRegistry()
+  const gen = new DataGeneratorBase({
+    generatorRegistry,
+    name: 'dummy1',
     storeName: 'simpleStore',
     varDir: path.join('tests', 'fixtures'),
-    useStore: true,
+    useStore: true
   })
 
   await gen.loadStore()
@@ -70,33 +67,37 @@ test('loadStore: useStore=true', async () => {
       ['T', 'Torsten'],
       ['H', 'Herbert'],
       ['J', 'John'],
-      ['A', 'Amadir'],
-    ],
+      ['A', 'Amadir']
+    ]
   })
 })
 
 test('generate with known instanceId', async () => {
-  const registry = new TDGServiceRegistry()
-  const gen = new DataGeneratorBase(registry, {
+  const generatorRegistry = new DataGeneratorRegistry()
+  const gen = new DataGeneratorBase({
+    generatorRegistry,
+    name: 'dummy1',
     storeName: 'simpleStore',
     varDir: path.join('tests', 'fixtures'),
-    useStore: true,
+    useStore: true
   })
 
   await gen.loadStore()
 
   // The data for the instanceID 'T' was loaded by the store
-  const val = await gen.generate('T')
+  const val = await gen.generate({ instanceId: 'T' })
 
   expect(val).toEqual('Torsten')
 })
 
 test('saveStore: useStore=true', async () => {
-  const registry = new TDGServiceRegistry()
-  const gen = new DataGeneratorBase(registry, {
+  const generatorRegistry = new DataGeneratorRegistry()
+  const gen = new DataGeneratorBase({
+    generatorRegistry,
+    name: 'dummy1',
     storeName: 'simpleStore',
     varDir: path.join('tests', 'fixtures'),
-    useStore: true,
+    useStore: true
   })
 
   await gen.loadStore()
@@ -105,12 +106,16 @@ test('saveStore: useStore=true', async () => {
   await gen.saveStore()
 
   // load the expected File Data
-  const expectedDataRaw = await readFile(
-    path.join(__dirname, 'fixtures', 'simpleStore.json')
+  const expectedDataRaw = await fs.readFile(
+    path.join(__dirname, 'fixtures', 'simpleStore.json'),
+    'utf8'
   )
   const expectedData = JSON.parse(expectedDataRaw)
 
-  const realDataRaw = await readFile(path.join(VOLATILE, 'saveStoreTest.json'))
+  const realDataRaw = await fs.readFile(
+    path.join(VOLATILE, 'saveStoreTest.json'),
+    'utf8'
+  )
   const realData = JSON.parse(realDataRaw)
 
   expect(realData).toEqual(expectedData)

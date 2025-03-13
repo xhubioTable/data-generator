@@ -1,27 +1,44 @@
 == Generator Interface
 
-async loadStore()::
- (Not implemented) This function should load the store of the generator.
+This interface defines the core methods that every data generator must support to integrate seamlessly into the system. It establishes a contract for managing persistent state, generating data, and handling post-processing tasks.
 
-async saveStore()::
- (Not implemented) This function should save the store of the generator.
+=== Methods Overview
 
-getGenerator(generatorName)::
-  (Implemented)
-  Returns the generator with the given name. If the generator does not exists, it throws
-  an exception.
+==== async loadStore()
+* **Purpose:** Loads the generator's persistent state.
+* **Details:**  
+  Implement this method to restore the generator’s stored data (e.g., unique values, instance-specific data) from a persistent medium before new data is generated.
 
-clearContext()::
-  (Implemented)
-  Clears the 'uniqueSet' and the 'instanceData' property.
+==== async saveStore()
+* **Purpose:** Saves the current state of the generator.
+* **Details:**  
+  Implement this method to persist the generator’s current state (e.g., caching unique values or instance data) to a storage medium, ensuring consistency across invocations.
 
-async generate(instanceId, testcase, todoGenerator)::
-  (Not implemented) This is the method normally do all the work. Here the data is generated.
+==== getGenerator(generatorName)
+* **Purpose:** Retrieves a data generator by its registered name.
+* **Returns:** The data generator associated with the specified name.
+* **Throws:** An exception if no generator is found with the given name.
 
-async createPostProcessTodos(instanceId, testcase, todoGenerator)::
-  (Not implemented) Only needed if the generator should do post processing.
-  Sometimes the generator should not create the data directly or should do additional work later on.
+==== clearContext()
+* **Purpose:** Clears the internal context.
+* **Details:**  
+  Resets internal properties such as `uniqueSet` and `instanceData` to remove any cached or temporary data, ensuring a fresh state for new operations.
 
+==== async generate(instanceId, testcase, todoGenerator)
+* **Purpose:** Generates data for a given test case.
+* **Details:**  
+  This is the primary method for data generation. It should return the generated data or `undefined` if generation cannot be completed—typically due to missing dependencies or data that is not yet available.
 
-async postProcess(instanceId, testcase, todoGenerator)::
-  (Not implemented) Executes the post process.
+==== async createPostProcessTodos(instanceId, testcase, todoGenerator)
+* **Purpose:** Creates post-processing tasks (todos) for additional operations after data generation.
+* **Details:**  
+  Implement this method if the generator needs to schedule further processing steps (e.g., to resolve dependencies between generated data) after the main data generation phase.
+
+==== async postProcess(instanceId, testcase, todoGenerator)
+* **Purpose:** Executes post-processing steps on the generated data.
+* **Details:**  
+  Use this method to perform any necessary final operations, such as validation, transformation, or cleanup, after all primary data generation is complete.
+
+=== Summary
+
+The Generator Interface sets the standard for data generators by specifying methods for loading and saving persistent state, generating data, and handling post-processing. Proper implementation of these methods is crucial for ensuring consistent, reliable data generation and integration within the system.

@@ -1,0 +1,26 @@
+== Data Generator Registry
+
+The Data Generator Registry is a centralized service that manages all available data generators for the processor. To utilize a generator, it must first be registered in this registry.
+
+=== Registry Methods
+
+==== registerGenerator(serviceName, generator)
+Registers a data generator under the specified service name. This registration makes the generator available for use by the processor.
+
+* **Parameters:**
+  * `serviceName` - A unique identifier for the generator.
+  * `generator` - The generator instance to be registered.
+
+==== getGenerator(serviceName)
+Retrieves the data generator associated with the specified service name. If no generator is found for the given name, the function throws an error.
+
+* **Parameters:**
+  * `serviceName` - The unique identifier for the generator.
+* **Returns:**
+  * The generator instance associated with the given service name.
+
+==== async loadStore()
+Invokes the `loadStore()` method on each registered generator asynchronously. This method is used to load or initialize the persisted state for every generator.
+
+==== async saveStore()
+Invokes the `saveStore()` method on each registered generator asynchronously. This method is responsible for persisting the current state of every generator.

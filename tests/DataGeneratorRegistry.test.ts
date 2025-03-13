@@ -1,28 +1,34 @@
-import path from 'path'
+import path from 'node:path'
 
-import { TDGServiceRegistry } from '../src/index'
-import { DataGeneratorBase } from '../src/index'
+import { DataGeneratorRegistry, DataGeneratorBase } from '../src/index'
 
 test('Test that registerGenerator could be retrieved', () => {
-  const registry = new TDGServiceRegistry()
+  const registry = new DataGeneratorRegistry()
 
-  registry.registerGenerator('myService', { myName: 'gum' })
+  registry.registerGenerator(
+    'myService',
+    new DataGeneratorBase({ generatorRegistry: registry, name: 'dummy1' })
+  )
   const generator = registry.getGenerator('myService')
 
-  expect(generator).toEqual({ myName: 'gum', name: 'myService' })
+  expect(generator.name).toEqual('myService')
 })
 
 test('Load store: useStore=false', async () => {
-  const registry = new TDGServiceRegistry()
+  const registry = new DataGeneratorRegistry()
 
-  const gen1 = new DataGeneratorBase(registry, {
+  const gen1 = new DataGeneratorBase({
+    name: 'dummy1',
+    generatorRegistry: registry,
     storeName: 'simpleStore',
-    varDir: path.join('tests', 'fixtures'),
+    varDir: path.join('tests', 'fixtures')
   })
 
-  const gen2 = new DataGeneratorBase(registry, {
+  const gen2 = new DataGeneratorBase({
+    name: 'dummy2',
+    generatorRegistry: registry,
     storeName: 'simpleStore2',
-    varDir: path.join('tests', 'fixtures'),
+    varDir: path.join('tests', 'fixtures')
   })
 
   registry.registerGenerator('gen1', gen1)
@@ -38,18 +44,22 @@ test('Load store: useStore=false', async () => {
 })
 
 test('Load store: useStore=true', async () => {
-  const registry = new TDGServiceRegistry()
+  const registry = new DataGeneratorRegistry()
 
-  const gen1 = new DataGeneratorBase(registry, {
+  const gen1 = new DataGeneratorBase({
+    name: 'dummy1',
+    generatorRegistry: registry,
     storeName: 'simpleStore',
     varDir: path.join('tests', 'fixtures'),
-    useStore: true,
+    useStore: true
   })
 
-  const gen2 = new DataGeneratorBase(registry, {
+  const gen2 = new DataGeneratorBase({
+    name: 'dummy2',
+    generatorRegistry: registry,
     storeName: 'simpleStore2',
     varDir: path.join('tests', 'fixtures'),
-    useStore: true,
+    useStore: true
   })
 
   registry.registerGenerator('gen1', gen1)
@@ -65,17 +75,17 @@ test('Load store: useStore=true', async () => {
       ['T', 'Torsten'],
       ['H', 'Herbert'],
       ['J', 'John'],
-      ['A', 'Amadir'],
+      ['A', 'Amadir']
     ],
-    uniqueSet: ['Torsten', 'Herbert', 'John', 'Amadir'],
+    uniqueSet: ['Torsten', 'Herbert', 'John', 'Amadir']
   })
   expect(gen2.getStoreData()).toEqual({
     instanceData: [
       ['TL', 'Torsten'],
       ['HB', 'Herbert'],
       ['JA', 'John'],
-      ['AG', 'Amadir'],
+      ['AG', 'Amadir']
     ],
-    uniqueSet: ['Torsten', 'Herbert', 'John', 'Amadir'],
+    uniqueSet: ['Torsten', 'Herbert', 'John', 'Amadir']
   })
 })

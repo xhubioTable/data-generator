@@ -1,4 +1,57 @@
-== Generator Base
-The base implementation of the interface in 'DataGeneratorBase.js' adds the load and save store function. It Also handles the use of the instanceId.
+== Data Generator Base
 
-It adds a new function '_doGenerate()' which needs to be overwritten.
+The Data Generator Base provides a default implementation of the data generator interface as defined in `DataGeneratorBase.js`. It handles common functionalities such as persistent storage, instance-specific data management via an instance ID, and ensuring unique generated values when required.
+
+=== Key Features
+
+* **Persistent Storage:**  
+  Implements `loadStore()` and `saveStore()` methods to manage the generator's state persistently.
+* **Instance Management:**  
+  Uses an `instanceId` to ensure that repeated calls with the same identifier return the same generated data.
+* **Unique Value Handling:**  
+  Maintains a unique set of values to ensure uniqueness when the generator is configured for unique output.
+* **Custom Data Generation:**  
+  Introduces an abstract method `_doGenerate()` that must be overridden by subclasses to implement the specific logic for generating data.
+
+=== Methods Overview
+
+* **loadStore():**  
+  Loads the stored generator data (unique values and instance-specific data) from persistent storage.
+  
+* **saveStore():**  
+  Persists the current state of the generator data to a storage file.
+
+* **getStoreData():**  
+  Returns an object representing the current data that would be saved, including unique values and instance data.
+
+* **generate(request):**  
+  Returns the generated data for a given test case instance. If data for the specified instance ID already exists, it is returned immediately. Otherwise, it delegates data generation to the `_doGenerate()` method.
+
+* **_doGenerate(request):**  
+  Abstract method that must be implemented by subclasses. This method contains the custom logic for data generation and should not modify test case data directly.
+
+=== How to Extend the Data Generator Base
+
+To create a custom data generator, follow these steps:
+1. **Subclass the Base:**  
+   Create a new class that extends `DataGeneratorBase`.
+2. **Override _doGenerate():**  
+   Implement the `doGenerate()` method with your custom data generation logic.
+3. **Optional – Utilize Persistence:**  
+   If your generator needs to persist state, use the built-in `loadStore()` and `saveStore()` methods.
+
+For example:
+
+[source,typescript]
+----
+class CustomDataGenerator extends DataGeneratorBase {
+  protected async doGenerate(request: DataGeneratorGenerateRequest): Promise<any> {
+    // Implement custom data generation logic here
+    return { generated: "data" }
+  }
+}
+----
+
+=== Summary
+
+The Data Generator Base streamlines the process of building new data generators by handling common tasks such as persistence, instance management, and unique value enforcement. Ensure to override the `doGenerate()` method in your subclasses to define the generator’s specific behavior.
