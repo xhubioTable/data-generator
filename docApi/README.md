@@ -1,4 +1,4 @@
-**@tlink/data-generator**
+**@xhubiotable/data-generator**
 
 ***
 
@@ -14,10 +14,7 @@ indicate completion.
 
 ### Generator Lifecycle
 
-<figure>
-<img src="images/data-generator/lifeCycle.svg" alt="lifeCycle" />
-<figcaption>Generator Lifecycle</figcaption>
-</figure>
+![Generator Lifecycle](images/data-generator/lifeCycle.svg)
 
 The diagram above illustrates the abstract lifecycle of a generator.
 When the processor starts up, it registers all generators in the service

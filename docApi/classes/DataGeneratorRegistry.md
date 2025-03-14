@@ -1,12 +1,12 @@
-[**@tlink/data-generator**](../README.md)
+[**@xhubiotable/data-generator**](../README.md)
 
 ***
 
-[@tlink/data-generator](../globals.md) / DataGeneratorRegistry
+[@xhubiotable/data-generator](../globals.md) / DataGeneratorRegistry
 
 # Class: DataGeneratorRegistry
 
-Defined in: DataGeneratorRegistry.ts:8
+Defined in: [DataGeneratorRegistry.ts:8](https://github.com/xhubioTable/data-generator/blob/cfc6fb9019072a1983ea5e9d9a1f0cdbae55def6/src/DataGeneratorRegistry.ts#L8)
 
 ## Constructors
 
@@ -24,7 +24,7 @@ Defined in: DataGeneratorRegistry.ts:8
 
 > **registry**: `Map`\<`string`, [`DataGeneratorInterface`](../interfaces/DataGeneratorInterface.md)\>
 
-Defined in: DataGeneratorRegistry.ts:12
+Defined in: [DataGeneratorRegistry.ts:12](https://github.com/xhubioTable/data-generator/blob/cfc6fb9019072a1983ea5e9d9a1f0cdbae55def6/src/DataGeneratorRegistry.ts#L12)
 
 Internal map that stores data generators by their unique names.
 
@@ -34,7 +34,7 @@ Internal map that stores data generators by their unique names.
 
 > **getGenerator**(`generatorName`): [`DataGeneratorInterface`](../interfaces/DataGeneratorInterface.md)
 
-Defined in: DataGeneratorRegistry.ts:77
+Defined in: [DataGeneratorRegistry.ts:77](https://github.com/xhubioTable/data-generator/blob/cfc6fb9019072a1983ea5e9d9a1f0cdbae55def6/src/DataGeneratorRegistry.ts#L77)
 
 Retrieves a data generator by its unique name.
 
@@ -54,7 +54,7 @@ The data generator associated with the specified name.
 
 #### Throws
 
-If no generator is found with the given name.
+Error If no generator is found with the given name.
 
 ***
 
@@ -62,7 +62,7 @@ If no generator is found with the given name.
 
 > **loadStore**(): `Promise`\<`void`\>
 
-Defined in: DataGeneratorRegistry.ts:60
+Defined in: [DataGeneratorRegistry.ts:60](https://github.com/xhubioTable/data-generator/blob/cfc6fb9019072a1983ea5e9d9a1f0cdbae55def6/src/DataGeneratorRegistry.ts#L60)
 
 Invokes the `loadStore()` method on each registered data generator.
 
@@ -78,7 +78,7 @@ This method restores the state of all generators from persistent storage.
 
 > **registerGenerator**(`generatorName`, `dataGenerator`): `void`
 
-Defined in: DataGeneratorRegistry.ts:25
+Defined in: [DataGeneratorRegistry.ts:25](https://github.com/xhubioTable/data-generator/blob/cfc6fb9019072a1983ea5e9d9a1f0cdbae55def6/src/DataGeneratorRegistry.ts#L25)
 
 Registers a new data generator in the registry.
 
@@ -102,7 +102,7 @@ The instance of the data generator to be registered.
 
 #### Throws
 
-If a generator with the given name is already registered.
+Error If a generator with the given name is already registered.
 
 ***
 
@@ -110,7 +110,7 @@ If a generator with the given name is already registered.
 
 > **saveStore**(): `Promise`\<`void`\>
 
-Defined in: DataGeneratorRegistry.ts:46
+Defined in: [DataGeneratorRegistry.ts:46](https://github.com/xhubioTable/data-generator/blob/cfc6fb9019072a1983ea5e9d9a1f0cdbae55def6/src/DataGeneratorRegistry.ts#L46)
 
 Invokes the `saveStore()` method on each registered data generator.
 

@@ -20,7 +20,7 @@ export class DataGeneratorRegistry {
    * @param generatorName - The unique name to assign to the generator.
    * @param dataGenerator - The instance of the data generator to be registered.
    *
-   * @throws {Error} If a generator with the given name is already registered.
+   * @throws Error If a generator with the given name is already registered.
    */
   registerGenerator(
     generatorName: string,
@@ -72,7 +72,7 @@ export class DataGeneratorRegistry {
    * @param generatorName - The name under which the generator is registered.
    * @returns The data generator associated with the specified name.
    *
-   * @throws {Error} If no generator is found with the given name.
+   * @throws Error If no generator is found with the given name.
    */
   getGenerator(generatorName: string): DataGeneratorInterface {
     const dataGenerator = this.registry.get(generatorName)

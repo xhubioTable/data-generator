@@ -1,4 +1,4 @@
-import { TodoGeneratorInterface } from '@tlink/model'
+import { TodoGeneratorInterface } from '@xhubiotable/model'
 import { DataGeneratorRegistry, GeneratorFaker } from '../../src/index'
 
 const gen = new GeneratorFaker({

@@ -1,5 +1,5 @@
-import { LoggerInterface } from '@tlink/logger'
-import { TodoGeneratorInterface } from '@tlink/model'
+import { LoggerInterface } from '@xhubiotable/logger'
+import { TodoGeneratorInterface } from '@xhubiotable/model'
 import { DataGeneratorRegistry } from './DataGeneratorRegistry'
 
 /**

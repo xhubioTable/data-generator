@@ -1,8 +1,8 @@
 import path from 'node:path'
 import fs from 'node:fs/promises'
 
-import { TodoGeneratorInterface } from '@tlink/model'
-import { LoggerInterface, LoggerMemory } from '@tlink/logger'
+import { TodoGeneratorInterface } from '@xhubiotable/model'
+import { LoggerInterface, LoggerMemory } from '@xhubiotable/logger'
 import {
   DataGeneratorGenerateRequest,
   DataGeneratorInterface

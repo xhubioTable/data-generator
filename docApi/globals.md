@@ -1,8 +1,8 @@
-[**@tlink/data-generator**](README.md)
+[**@xhubiotable/data-generator**](README.md)
 
 ***
 
-# @tlink/data-generator
+# @xhubiotable/data-generator
 
 ## Classes
 
