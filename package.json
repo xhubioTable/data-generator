@@ -57,5 +57,6 @@
   },
   "devDependencies": {
     "@xhubiotable/build-base": "^1.0.2"
-  }
+  },
+  "deprecated": "This package has been deprecated. Please use @xhubio/nanook-table instead."
 }
